@@ -21,18 +21,27 @@ const alchemy = new Alchemy(settings);
 
 const Home = () => {
 
-  const [blockNumber, setBlockNumber] = useState();
+  const [blockNumber, setBlockNumber] = useState(0);
+  const [blockInfo, setBlockInfo] = useState(0);
 
-  useEffect(() => {
-    async function getBlockNumber() {
-      setBlockNumber(await alchemy.core.getBlockNumber());
+  const getBlockNumber = async () => {
+    try {
+      const blockNumber = await alchemy.core.getBlockNumber()
+      setBlockNumber(blockNumber)
+      const blockInfo = await alchemy.core.getBlockWithTransactions(blockNumber);
+      setBlockInfo(blockInfo)
+      console.log(blockInfo)
+
+    } catch(error) {
+      console.log(error)
     }
+   }
 
-    getBlockNumber();
-  });
+  useEffect(() => { getBlockNumber()},
+    [])
 
   return (
-    <LastBlockInfo/>
+    <LastBlockInfo blockInfo={blockInfo}/>
   )
 }
 

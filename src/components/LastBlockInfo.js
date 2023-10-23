@@ -1,148 +1,126 @@
-import { Alchemy, Network } from 'alchemy-sdk';
+
 import React, { useEffect, useState } from 'react';
 
-const settings = {
-  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
-  network: Network.ETH_MAINNET,
-};
+const LastBlockInfo = (props) => {
+  
+  const { blockInfo } = props;
 
-const alchemy = new Alchemy(settings);
+  const formatter = (_data) => {
+    return (_data < 10) ? `0${_data}` : `${_data}`;
+  }
 
-const LastBlockInfo = () => {
-
-  const [blockNumber, setBlockNumber] = useState();
-
-  useEffect(() => {
-    async function getBlockNumber() {
-      setBlockNumber(await alchemy.core.getBlockNumber());
-    }
-
-    getBlockNumber();
-  });
-
+  const getDateFormat = (_date) => {
+    const t = new Date(_date * 1000);
+    return `${formatter(t.getDate())}/${formatter(t.getMonth() + 1)}/${formatter(t.getFullYear())} ${formatter(t.getHours())}:${formatter(t.getMinutes())}`
+  }
   return (
 
-    <><div className="App">
-      Block Number: {blockNumber}
-    </div>
-      <div class="relative overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <>
+      <div className="relative overflow-x-auto">
+        <table className="md:w-full lg:w-[80%] text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
-                Block Info
+              <th scope="col" className="px-6 py-3 text-3xl">
+                Last Block Info
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 Block Number
               </th>
-              <td class="px-6 py-4">
-                placeholder
+              <td className="px-6 py-4">
+              {blockInfo ? `${blockInfo.number}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 hash
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.hash ? `${blockInfo.hash}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                parentHash
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              parentHash
               </th>
-              <td class="px-6 py-4">
-                placeholder
+              <td className="px-6 py-4">
+              {blockInfo.parentHash ? `${blockInfo.parentHash}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                hash
-              </th>
-              <td class="px-6 py-4">
-              placeholder
-              </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 logsBloom
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.logsBloom ? `${blockInfo.logsBloom}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 timestamp
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.timestamp ? getDateFormat(`${blockInfo.timestamp}`) : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 nonce
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.nonce ? `${blockInfo.nonce}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 difficulty
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.difficulty ? `${blockInfo.difficulty}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 gasLimit
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.gasLimit ? `${blockInfo.gasLimit}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 gasUsed
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.gasUsed ? `${blockInfo.gasUsed}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 size
               </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.size ? `${blockInfo.size}` : "No info"}
               </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 miner
               </th>
-              <td class="px-6 py-4">
-              placeholder
-              </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                transactions
-              </th>
-              <td class="px-6 py-4">
-              placeholder
+              <td className="px-6 py-4">
+              {blockInfo.miner ? `${blockInfo.miner}` : "No info"}
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="pl-5 mt-5">
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">See Transactions</button>
       </div>
       </>
   )
