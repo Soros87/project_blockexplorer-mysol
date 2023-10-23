@@ -4,6 +4,16 @@ import React, { useEffect, useState } from 'react';
 const LastBlockInfo = (props) => {
   
   const { blockInfo } = props;
+  const [detail, setDetail] = useState([]);
+  const seeTxs = (e) => {
+    e.preventDefault();
+    setDetail(blockInfo.transactions);
+    
+  }
+  const hideTxs = (e) => {
+    e.preventDefault();
+    setDetail([]);
+  }
 
   const formatter = (_data) => {
     return (_data < 10) ? `0${_data}` : `${_data}`;
@@ -119,9 +129,50 @@ const LastBlockInfo = (props) => {
           </tbody>
         </table>
       </div>
+      
+      {detail.length > 0 ? 
       <div className="pl-5 mt-5">
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">See Transactions</button>
+        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 invisible" ></button>
       </div>
+
+      :
+
+      <div className="pl-5 mt-5">
+        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"onClick={(e) => seeTxs(e)} >See Transactions</button>
+      </div>
+
+      }
+
+      {detail.length > 0 && 
+
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="md:w-full lg:w-[80%] text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" className="px-6 py-3">
+                    Index
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Txn Hash
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            {detail.map((item,index)=>(
+                <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <th className="pl-5">{`TX # ${index + 1} Hash :`} </th>
+                <td className="px-6 py-4"> {item.hash} </td>
+                </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="pl-5 mt-5">
+          <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"onClick={(e) => hideTxs(e)} >Hide Transactions</button>
+        </div>
+      </div>
+      }
+ 
+      
       </>
   )
 }
