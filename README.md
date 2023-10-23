@@ -125,4 +125,10 @@ Read more about the above in the [Alchemy SDK Surface docs](https://docs.alchemy
 - Did a pending transaction get mined?
 - What transfers did an address receive this year?
 
-Good luck and have fun! Tim is here.
+Good luck and have fun!
+
+
+Tim comments
+1) run npm install tailwindcss for react
+2) update the react version and testing-library version to resolve peer dependencies conflict 
+3) install flowbite css

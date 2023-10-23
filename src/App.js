@@ -1,6 +1,7 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 
+
 import './App.css';
 
 // Refer to the README doc for more information about using API
@@ -20,6 +21,7 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 function App() {
+
   const [blockNumber, setBlockNumber] = useState();
 
   useEffect(() => {
@@ -30,7 +32,9 @@ function App() {
     getBlockNumber();
   });
 
-  return <div className="App">Block Number: {blockNumber}</div>;
+  return 
+  <div className="App">
+    Block Number: {blockNumber}</div>;
 }
 
 export default App;
